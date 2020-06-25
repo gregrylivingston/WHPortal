@@ -2,16 +2,39 @@
 
 
 
-
 <head>
 
 <style>
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    background-color: beige;
+    border-radius: 5px;
+    padding: .3em .7em;
+    color: #084b6d;
+    font-size: 1em;
+    border:none;
+    transition-duration: 0.4s;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    padding: 12px 16px;
+    z-index: 1;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
 
   /* Tooltip container */
   .tooltip {
     position: relative;
     display: inline-block;
-    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
   }
 
   /* Tooltip text */
@@ -36,29 +59,6 @@
 
 
 
-  @font-face {
-    font-family: 'fontello';
-    src: url('../font/fontello.eot?77785429');
-    src: url('../font/fontello.eot?77785429#iefix') format('embedded-opentype'),
-         url('../font/fontello.svg?77785429#fontello') format('svg');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'fontello';
-    src: url('data:application/octet-stream;base64,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') format('woff'),
-         url('data:application/octet-stream;base64,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') format('truetype');
-  }
-  /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-  /* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
-  /*
-  @media screen and (-webkit-min-device-pixel-ratio:0) {
-    @font-face {
-      font-family: 'fontello';
-      src: url('../font/fontello.svg?77785429#fontello') format('svg');
-    }
-  }
-  */
 
    [class^="icon-"]:before, [class*=" icon-"]:before {
     font-family: "fontello";
@@ -90,12 +90,6 @@
     /* Uncomment for 3D effect */
     /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
   }
-  .icon-lightbulb:before { content: '\e800'; } /* '' */
-  .icon-right-big:before { content: '\e801'; } /* '' */
-  .icon-right-open:before { content: '\e802'; } /* '' */
-  .icon-right-open-1:before { content: '\e803'; } /* '' */
-  .icon-right-small:before { content: '\e804'; } /* '' */
-  .icon-down-small:before { content: '\e805'; } /* '' */
 
 
   /* general settings */
@@ -278,13 +272,19 @@
   }
 */
   button {
-      background-color: #e2e2a5;
+      background-color: beige;
       border-radius: 5px;
       padding: .3em .7em;
       color: #084b6d;
       font-size: 1em;
-      border: none;
+      border:none;
+      transition-duration: 0.4s;
   }
+
+  button:hover {
+  background-color: white; /* Green */
+  color: black;
+}
 
   .row.revealed, .all-revealed .row {
       opacity: 1;
@@ -457,10 +457,108 @@
 </head>
 
 <script>
+
+
   var nbc = [
+      [
+          {
+            question:"Newborn Care",
+            answer:`<div id="topicBlocknb" style="display:;">
+                    <h3>Pre Lessons</h3>
+                      <p><button onclick="fillRows(nbc[1])">Rhythms & Routines</button>
+                      <button onclick="fillRows(nbc[2])">Learning Baby's Cues</button>
+                      <button onclick="fillRows(nbc[3])">Swaddling</button></p>
+                    </div>`
+          }
+      ],
+
         [//lesson0
               {
                   question:`Pre Lesson 1: Rhythms & Routines`,
+                  answer:`  Learn simple daily activities to contribute to a healthy pregnancy for mom and baby. Discuss how to build habits around the practice.`
+              },
+              {
+                  question:`What is one thing your baby is going to need every day?<br><br><input type=\"text\"></input>`,
+                  answer:`What does 24 hrs with a newborn look like?<br><br><iframe style="margin:auto;" width="560" height="315" src="https://www.youtube-nocookie.com/embed/m9QndNXcnCU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+              },
+              {
+                  question:`What is one thing you will do take care of yourself?<br><br><input type=\"text\"></input>`,
+                  answer:`Self care is especially important for new parents.<br><br><a href="https://www.mayoclinic.org/healthy-lifestyle/infant-and-toddler-health/in-depth/newborn/art-20045498#:~:text=Take%20care%20of%20yourself&text=Instead%2C%20eat%20a%20healthy%20diet,to%20care%20for%20your%20newborn.">Here's a link with strategies for self care.</a>`
+              },
+              {
+                  question:`<iframe src="https://drive.google.com/file/d/1ukfNot7uVjOsCKUoArMp8bXbfdYJY4PN/preview" width="640" height="480"></iframe>`,
+                  answer:`Newborn sleep schedules by week<br><br><a href="https://www.babysleepsite.com/newborns/newborn-sleep-schedules-by-week/"</a>`
+              },
+              {
+                  question:`<iframe src="https://www.timeforpayback.com/"></iframe>`,
+                  answer:`Newborn sleep schedules by week<br><br><a href="https://www.babysleepsite.com/newborns/newborn-sleep-schedules-by-week/"</a>`
+              }
+        ],
+        [//lesson1
+              {
+                  question:`Pre Lesson 2: Learning Babies Cues`,
+                  answer:`Learn to swaddle`
+              },
+              {
+                  question:`Hunger Cues<br><br>Crying is a very late signal that baby is hungry.<br>Learning baby’s earlier hunger cues will help feeding be calmer and more successful for you and baby<br>Watch this video to observe newborn hunger cues so you’ll know just what to look for.<br><br><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ABAXgubx58Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+                  answer:`Self care is especially important for new parents.<br><br><a href="https://www.mayoclinic.org/healthy-lifestyle/infant-and-toddler-health/in-depth/newborn/art-20045498#:~:text=Take%20care%20of%20yourself&text=Instead%2C%20eat%20a%20healthy%20diet,to%20care%20for%20your%20newborn.">Here's a link with strategies for self care.</a>`
+              },
+              {
+                  question:`Tired Cues<br><br><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/UdXj3bueaXw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+                  answer:`Newborn sleep schedules by week<br><br><a href="https://www.babysleepsite.com/newborns/newborn-sleep-schedules-by-week/"</a>`
+              },
+              {
+                  question:`Gassy Cues<br><br><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/gAupFs8Kwts" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+                  answer:`Newborn sleep schedules by week<br><br><a href="https://www.babysleepsite.com/newborns/newborn-sleep-schedules-by-week/"</a>`
+              },
+              {
+                  question:`Baby Language<br><br>        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/afMNp6Q4u7s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+                  answer:`Newborn sleep schedules by week<br><br><a href="https://www.babysleepsite.com/newborns/newborn-sleep-schedules-by-week/"</a>`
+              }
+        ],
+
+        [//lesson2
+              {
+                  question:`Pre Lesson 3: Swaddling`,
+                  answer:`Here are some words`
+              },
+              {
+                  question:`What is one thing you will do take care of yourself?<br><br><input type=\"text\"></input>`,
+                  answer:`Self care is especially important for new parents.<br><br><a href="https://www.mayoclinic.org/healthy-lifestyle/infant-and-toddler-health/in-depth/newborn/art-20045498#:~:text=Take%20care%20of%20yourself&text=Instead%2C%20eat%20a%20healthy%20diet,to%20care%20for%20your%20newborn.">Here's a link with strategies for self care.</a>`
+              },
+              {
+                  question:`Here's a video from Kelly`,
+                  answer:`Newborn sleep schedules by week<br><br><a href="https://www.babysleepsite.com/newborns/newborn-sleep-schedules-by-week/"</a>`
+              },
+              {
+                  question:`<iframe src="https://www.timeforpayback.com/"></iframe>`,
+                  answer:`Newborn sleep schedules by week<br><br><a href="https://www.babysleepsite.com/newborns/newborn-sleep-schedules-by-week/"</a>`
+              }
+        ],
+  ];
+
+  var mc = [
+        [
+            {
+              question:"Modern Childcare",
+              answer:`        <div id="topicBlockmc" style="display:">
+                        <h3>Pre Lessons</h3>
+                        <p><button onclick="fillRows(mc[2])">During Pregnancy</button>
+                        <button onclick="fillRows(mc[3])">Stages of Birth</button>
+                        <button onclick="fillRows(mc[4])">Birth Progress and Tips</button></p>
+                        <h3>Session 1<button onclick="fillRows(mc[1])">Session Guide</button></h3>
+                        <p><button onclick="fillRows(mc[2])">During Pregnancy</button>
+                        <button onclick="fillRows(mc[3])">Stages of Birth</button>
+                        <button onclick="fillRows(mc[4])">Birth Progress and Tips</button></p>
+
+
+                        </div>`
+            }
+        ],
+
+        [//lesson0
+              {
+                  question:`During Pregnancy`,
                   answer:`  Learn simple daily activities to contribute to a healthy pregnancy for mom and baby. Discuss how to build habits around the practice.`
               },
               {
@@ -498,7 +596,7 @@
                   answer:`Newborn sleep schedules by week<br><br><a href="https://www.babysleepsite.com/newborns/newborn-sleep-schedules-by-week/"</a>`
               }
         ],
-        [//lesson1
+        [//lesson2
               {
                   question:`Pre Lesson 3: Swaddling`,
                   answer:`Here are some words`
@@ -516,7 +614,10 @@
                   answer:`Newborn sleep schedules by week<br><br><a href="https://www.babysleepsite.com/newborns/newborn-sleep-schedules-by-week/"</a>`
               }
         ],
+
+
   ];
+
 
 
   </script>
@@ -526,34 +627,19 @@
   <div id="buttons">
     <br>
 
-  <!--    <button id="programs" onclick="togglePrograms()">WeeHuman Programs</button>-->
-
-    <div id="programsBlock" style="display:none;">
-      <br>
-        <button>Modern Childbirth</button>
-        <button>Neborn Care</button>
-        <button>Breastfeeding</button>
-      </div>
-
-
-    <h2>WeeHuman Newborn Care</h2>
+    <h2>WeeHuman
+      <div class="dropdown">
+      <span id="title">Newborn Care</span>
+          <div class="dropdown-content">
+            <p><button onclick="getCourse(mc)">Modern Childbirth</button></p>
+            <p><button onclick="getCourse(nbc)">Neborn Care</button></p>
+            <p><button onclick="getCourse(mc)">Breastfeeding</button></p>
+    </div>
+    </h2>
   <!--    <button id="topics" onclick="toggleTopics()">Newborn Care Topics</button>-->
   <!--    <button id="events" onclick="toggleEvents()">Modern Childbirth Events</button>-->
 
-      <div id="topicBlock" style="display:;">
-        <h3>Pre Lessons</h3>
-          <p><button onclick="fillRows(nbc[0])">Rhythms & Routines</button>
-          <button onclick="fillRows(nbc[1])">Learning Baby's Cues</button>
-          <button onclick="fillRows(nbc[2])">Swaddling</button></p>
-        </div>
-
-        <div id="eventBlock" style="display:none;">
-          <br>
-            <p><button>Modern Childbirth with Amy - Tuesday July 6th @ 7pm Eastern</button></p>
-            <p><button>Modern Childbirth with Kelly - Wednesday July 7th @ 7pm Eastern</button></p>
-            <p><button>Modern Childbirth with Lori - Thursday July 8th @ 7pm Eastern</button></p>
-          </div>
-
+    <div id="topicBlock"></div>
 
     <h2 id="topic">Rhythms & Routines</h2>
       <p id="description">
@@ -593,6 +679,15 @@
 
 <script>
 
+function getCourse(course){
+
+  var title = document.getElementById("title");
+     title.innerHTML = course[0][0].question;
+   var topic = document.getElementById("topicBlock");
+      topic.innerHTML = course[0][0].answer;
+  fillRows(course[1]);
+
+}
 
   function fillRows(questions){
 
@@ -609,6 +704,7 @@
         }
          var div = document.getElementById("rows");
              div.innerHTML = html;
+
          start();
   }
 
@@ -622,7 +718,7 @@ function start() {
         var div = document.createElement("div");
         div.id = 'buttons-under'
         div.innerHTML = `
-            <button class="next-question"><i class="icon-down-small"></i>next question</button>
+            <button class="next-question">Next</button>
            <button class="learned-nothing tooltip">😟<span class="tooltiptext">Something went wrong.</span></button>
            <button class="learned-wow tooltip">🌟<span class="tooltiptext">Wow!</span></button>
             <button class="learned-something tooltip">💡<span class="tooltiptext">Fascinating.</span></button>`;
@@ -673,14 +769,7 @@ function start() {
 
 }
 
-  function togglePrograms() {
-    var x = document.getElementById("programsBlock");
-    if (x.style.display === "none") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
-    }
-  }
+
   function toggleTopics() {
     var topicBlock = document.getElementById("topicBlock");
     if (topicBlock.style.display === "none") {
@@ -830,5 +919,5 @@ function $e(tag='div', props={}, children=[]){
     el.append(...children);
     return el;
 }
-fillRows(nbc[0]);
+getCourse(nbc);
 </script>
